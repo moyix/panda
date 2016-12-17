@@ -1,5 +1,9 @@
 # PANDA
 
+## This repository is deprecated. Please refer to [PANDA 2](https://github.com/panda-re/panda).
+
+## No new updates will be made to this repository.
+
 PANDA is an open-source Platform for Architecture-Neutral Dynamic Analysis. It
 is built upon the QEMU whole system emulator, and so analyses have access to all
 code executing in the guest and all data. PANDA adds the ability to record and
