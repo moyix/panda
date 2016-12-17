@@ -45,6 +45,7 @@ endif
 
 ifdef CONFIG_SOFTMMU
 RR_PRINT_PROG=rr_print_$(TARGET_ARCH2)$(EXESUF)
+RR_PCAP_PROG=rr_pcap_$(TARGET_ARCH2)$(EXESUF)
 endif
 
 PLUGIN_SUBDIR_RULES=$(patsubst %,plugin-%, $(PANDA_PLUGINS))
@@ -58,7 +59,7 @@ endif
 TOOL_SUBDIR_RULES=$(patsubst %,tool-%, $(PANDA_TOOLS))
 TOOL_SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory) BUILD_DIR=$(BUILD_DIR)
 
-PROGS=$(QEMU_PROG) $(RR_PRINT_PROG)
+PROGS=$(QEMU_PROG) $(RR_PRINT_PROG) $(RR_PCAP_PROG)
 STPFILES=
 
 ifndef CONFIG_HAIKU
@@ -559,6 +560,10 @@ $(QEMU_PROG): $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y)
 
 $(RR_PRINT_PROG): rr_print.o
 	$(call LINK,$^)
+
+$(RR_PCAP_PROG): LIBS+=-lpcap
+$(RR_PCAP_PROG): rr_pcap.o
+	$(call LINK, $^)
 
 plugin-%: $(libobj-y)
 	$(call quiet-command,$(MAKE) $(PLUGIN_SUBDIR_MAKEFLAGS) -C ../panda_plugins/$* V="$(V)" TARGET_DIR="$(SRC_DIR)/$(TARGET_DIR)" all,)
